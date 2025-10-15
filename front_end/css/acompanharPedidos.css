@@ -1,0 +1,27 @@
+.containerPedidos{
+    background-color: #D9D9D9;
+    display: flex;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+
+}
+ul{
+    list-style: none;
+}
+li{
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+
+}
+.btns-pedido button{
+    margin-top: 30px;
+   background-color: #a7a7a7;
+   margin-bottom: 40px;
+}
+hr{
+border-color: rgba(0, 0, 0, 0.736);
+margin-bottom: 30px;
+}
