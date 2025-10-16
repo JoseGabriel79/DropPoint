@@ -90,6 +90,31 @@ img{
     height: 200px;
     object-fit: cover;
 }
+/* ...existing code... */
+
+.menu-hamburger {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+    z-index: 10;
+}
+
+.menu-hamburger span {
+    height: 4px;
+    width: 100%;
+    background: #2c3e50;
+    margin: 4px 0;
+    border-radius: 2px;
+    display: block;
+}
+
+
 
 @media (max-width: 768px) {
     .container {
@@ -123,4 +148,26 @@ img{
     height: 100px;
     object-fit: cover; 
 }
+.menu-hamburger {
+        display: flex;
+    }
+    nav ul,
+    .box-button {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        background: #fff;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        padding: 10px 0;
+    }
+    nav ul.show,
+    .box-button.show {
+        display: flex;
+    }
+    nav {
+        position: relative;
+    }
 }
