@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 // Conexão com o banco PostgreSQL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { rejectUnauthorized: false },
+  ssl: { require: true, rejectUnauthorized: false },
 });
 
 // ✅ Rota para adicionar usuário
@@ -41,8 +41,10 @@ app.post("/usuarios", async (req, res) => {
       usuario: rows[0],
     });
   } catch (erro) {
-    console.error("Erro ao inserir usuário:", erro);
-    res.status(500).json({ erro: "Erro interno ao adicionar usuário." });
+    console.error("🟥 Erro detalhado ao inserir usuário:", erro);
+    res.status(500).json({ erro: erro.message || "Erro desconhecido no servidor" });
+
+
   }
 });
 
