@@ -46,30 +46,24 @@ nav {
     gap: 20px;
 }
 
-nav ul {
-    list-style: none;
-    display: flex;
-    gap: 20px;
-}
-
-nav ul li a {
+nav a {
     text-decoration: none;
     color: #2c3e50;
     font-weight: 500;
     transition: color 0.3s;
 }
 
-nav ul li a:hover {
+nav a:hover {
     color: #3498db;
 }
-
 
 .box-button {
     display: flex;
     gap: 10px;
+    height: 200px;
 }
 
-.box-button button {
+.box-button a {
     padding: 8px 16px;
     border: none;
     border-radius: 5px;
@@ -78,14 +72,15 @@ nav ul li a:hover {
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s;
+    width: 100%;
 }
 
-.box-button button:hover {
+.box-button a:hover {
     background-color: #2980b9;
 }
 
 
-img{
+img {
     width: 200px;
     height: 200px;
     object-fit: cover;
@@ -103,7 +98,7 @@ img{
     cursor: pointer;
     margin-right: 10px;
     z-index: 10;
-    width: 150px;
+    width: 100%;
     height: 40px;
 }
 
@@ -117,14 +112,27 @@ img{
     display: block;
 }
 
+#menu-nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
 
+#menu-nav a {
+    text-decoration: none;
+    color: #2c3e50;
+    font-weight: 500;
+    transition: color 0.3s;
+}
 
 @media (max-width: 768px) {
     .container {
         width: 100%;
         flex-direction: column;
     }
-
+    #menu-nav{
+        flex-direction: column;
+    }
     h1 {
         font-size: 30px;
         text-align: center;
@@ -135,6 +143,7 @@ img{
         flex-direction: column;
         align-items: flex-start;
         gap: 10px;
+        position: relative;
     }
 
     .box-button {
@@ -142,19 +151,21 @@ img{
         width: 100%;
     }
 
-    .box-button button {
+    .box-button a {
         width: 100%;
     }
+
     img {
-    cursor: pointer;
-    width: 100px;
-    height: 100px;
-    object-fit: cover; 
-}
-.menu-hamburger {
+        cursor: pointer;
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+    }
+
+    .menu-hamburger {
         display: flex;
     }
-    nav ul,
+
     .box-button {
         display: none;
         flex-direction: column;
@@ -163,14 +174,16 @@ img{
         position: absolute;
         top: 70px;
         left: 0;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
         padding: 10px 0;
     }
-    nav ul.show,
+
+    nav .show,
     .box-button.show {
         display: flex;
     }
-    nav {
-        position: relative;
+    header{
+        flex-direction: column;
+        align-items: center;
     }
 }
