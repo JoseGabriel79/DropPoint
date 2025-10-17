@@ -1,3 +1,5 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
 const express = require("express");
 const cors = require("cors"); // ✅ Importação que faltava
 const { Pool } = require("pg");
@@ -13,8 +15,12 @@ app.use(express.urlencoded({ extended: true }));
 // Conexão com o banco PostgreSQL
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
-  ssl: { require: true, rejectUnauthorized: false },
+  ssl: {
+    require: true,
+    rejectUnauthorized: false
+  },
 });
+
 
 // ✅ Rota para adicionar usuário
 app.post("/usuarios", async (req, res) => {
