@@ -1,24 +1,36 @@
+</html>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/loginUsuario.css">
-    <title>Login</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Usuário</title>
+  <link rel="stylesheet" href="/front_end/css/login.css">
 </head>
-<body class="pagina-usuario">
-<div class="containerlogin">
-<h1 class="mensagem-login">Seja bem-vindo à área do usuário</h1>
 
-<div class="foto-perfil">
-  <img class="login-imagem" src="" alt="">
-</div>
+<body>
 
-<div class="inputlogin">
-<input class="loginUsuario" type="text" placeholder="Login">
-<input class="loginsenha" type="password" placeholder="Senha">
-</div>
-<button class="buttonlogin">Cadastrar</button>
-</div>
+  <div class="container">
+   
+<img onclick="window.location.href='../../index.html'" class="back-arrow" src="../img/seta-esquerda.png" alt="seta">
+
+    <h1>Seja bem-vindo</h1>
+
+    <div class="img-wrapper">
+      <img class="login-imagem" src="../img/Logo.png" alt="">
+    </div>
+
+    <div class="box-input">
+      <input type="text" placeholder="Email">
+      <input type="password" placeholder="Senha">
+    </div>
+    <div class="box-button">
+      <button>Entrar</button>
+      <button onclick="window.location.href='../public/cadastroUsuario.html'">Cadastrar</button>
+    </div>
+  </div>
+
 </body>
+
 </html>
