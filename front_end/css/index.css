@@ -90,7 +90,7 @@ img{
     height: 200px;
     object-fit: cover;
 }
-/* ...existing code... */
+
 
 .menu-hamburger {
     display: none;
@@ -103,11 +103,14 @@ img{
     cursor: pointer;
     margin-right: 10px;
     z-index: 10;
+    width: 150px;
+    height: 40px;
 }
 
 .menu-hamburger span {
     height: 4px;
-    width: 100%;
+    width: 25px;
+    justify-content: center;
     background: #2c3e50;
     margin: 4px 0;
     border-radius: 2px;
