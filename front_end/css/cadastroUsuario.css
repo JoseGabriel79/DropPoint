@@ -1,4 +1,4 @@
-/* Reset básico */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,7 +10,7 @@ body {
     line-height: 1.6;
 }
 
-/* Corpo da página - seguindo padrão do login */
+
 .cadastro {
     background-color: black;
     min-height: 100vh;
@@ -21,7 +21,7 @@ body {
     position: relative;
 }
 
-/* Botão de voltar */
+
 .back-button {
     position: absolute;
     top: 20px;
@@ -54,7 +54,7 @@ body {
     height: 20px;
 }
 
-/* Container principal - seguindo padrão do login */
+
 .containercadastroUsuario {
     background: white;
     border-radius: 5px;
@@ -76,7 +76,7 @@ body {
     }
 }
 
-/* Header do cadastro */
+
 .header-cadastro {
     text-align: center;
     margin-bottom: 30px;
@@ -95,14 +95,14 @@ body {
     font-weight: 400;
 }
 
-/* Formulário */
+
 .form-cadastro {
     display: flex;
     flex-direction: column;
     gap: 15px;
 }
 
-/* Grupos de input */
+
 .input-group {
     display: flex;
     flex-direction: column;
@@ -116,7 +116,7 @@ body {
     margin-bottom: 4px;
 }
 
-/* Container de senha com botão de mostrar/ocultar */
+
 .password-container {
     position: relative;
     display: flex;
@@ -138,7 +138,7 @@ body {
     color: #000;
 }
 
-/* Campos de input - seguindo padrão do login */
+
 .input-field {
     width: 100%;
     height: 40px;
@@ -170,7 +170,7 @@ body {
     background-color: #c6f6d5;
 }
 
-/* Indicador de força da senha */
+
 .password-strength {
     height: 4px;
     border-radius: 2px;
@@ -193,7 +193,7 @@ body {
     width: 100%;
 }
 
-/* Mensagens de erro */
+
 .error-message {
     color: #e53e3e;
     font-size: 12px;
@@ -203,7 +203,7 @@ body {
     min-height: 16px;
 }
 
-/* Container dos termos */
+
 .terms-container {
     margin: 10px 0;
 }
@@ -257,7 +257,7 @@ body {
     text-decoration: underline;
 }
 
-/* Botão de cadastro - seguindo padrão do login */
+
 .buttoncadastro {
     width: 100%;
     height: 40px;
@@ -288,7 +288,7 @@ body {
     transform: none;
 }
 
-/* Loading spinner */
+
 .loading-spinner {
     width: 20px;
     height: 20px;
@@ -304,7 +304,7 @@ body {
     100% { transform: rotate(360deg); }
 }
 
-/* Link para login */
+
 .login-link {
     text-align: center;
     margin-top: 20px;
@@ -327,7 +327,7 @@ body {
     text-decoration: underline;
 }
 
-/* Responsividade */
+
 @media (max-width: 768px) {
     .cadastro {
         padding: 15px;
@@ -355,7 +355,7 @@ body {
     
     .input-field {
         height: 45px;
-        font-size: 16px; /* Evita zoom no iOS */
+        font-size: 16px; 
     }
     
     .buttoncadastro {
@@ -363,7 +363,7 @@ body {
     }
 }
 
-/* Estados de validação visual */
+
 .input-group.success .input-field {
     border-color: #38a169;
     background-color: #f0fff4;
@@ -374,17 +374,17 @@ body {
     background-color: #fed7d7;
 }
 
-/* Animações suaves */
+
 .input-field, .buttoncadastro, .btn-back {
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Efeitos de foco aprimorados */
+
 .input-field:focus {
     transform: translateY(-1px);
 }
 
-/* Animação do botão de envio */
+
 @keyframes pulse {
     0% {
         box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.7);
@@ -401,7 +401,7 @@ body {
     animation: pulse 2s infinite;
 }
 
-/* Melhorias de acessibilidade */
+
 .input-field:focus,
 .btn-back:focus,
 .buttoncadastro:focus,
@@ -410,7 +410,7 @@ body {
     outline-offset: 2px;
 }
 
-/* Animações de entrada removidas para manter simplicidade */
+
 
 @keyframes fadeInUp {
     from {
@@ -423,7 +423,7 @@ body {
     }
 }
 
-/* Modo escuro (opcional) */
+
 @media (prefers-color-scheme: dark) {
     .containercadastroUsuario {
         background: #1a202c;
@@ -467,7 +467,7 @@ body {
     }
 }
 
-/* Melhorias para dispositivos touch */
+
 @media (hover: none) and (pointer: coarse) {
     .btn-back,
     .buttoncadastro,
@@ -481,7 +481,7 @@ body {
     }
 }
 
-/* Animação de carregamento personalizada */
+
 .loading-spinner {
     display: inline-block;
     position: relative;
@@ -510,7 +510,7 @@ body {
     }
 }
 
-/* Efeito de sucesso */
+
 .success-message {
     background: linear-gradient(135deg, #38a169, #48bb78);
     color: white;
