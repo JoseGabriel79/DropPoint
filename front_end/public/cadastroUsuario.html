@@ -1,27 +1,132 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../css/cadastroUsuario.css">
-    <title>Cadastro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>DropPoint - Cadastro de Usuário</title>
 </head>
 <body class="cadastro">
     
-    <div class="foto-perfil">
-  <img onclick="window.location.href='../public/loginUsuario.html'" class="login-imagem" src="../img/seta-esquerda.png" alt="">
-</div>
+    <div class="back-button">
+        <button onclick="window.location.href='../public/loginUsuario.html'" class="btn-back" aria-label="Voltar para login">
+            <img src="../img/seta-esquerda.png" alt="Voltar">
+        </button>
+    </div>
 
-<div class="containercadastroUsuario">
-<h1 class="textocadastro">Por favor complete seu cadastro</h1>
+    <div class="containercadastroUsuario">
+        <div class="header-cadastro">
+            <h1 class="textocadastro">Criar Conta</h1>
+            <p class="subtitulo">Preencha os dados abaixo para se cadastrar</p>
+        </div>
 
-<div class="inputlogin">
-<input class="nomecadastro" type="text" placeholder="Login">
-<input class="cadastroEmail" type="text" placeholder="E-mail">
-<input class="cadastroSenha" type="password" placeholder="Senha">
-<input class="cadastroConfirmarSenha" type="password" placeholder="Confirmar Senha">
-</div>
+        <form class="form-cadastro" id="cadastroForm" novalidate>
+            <div class="input-group">
+                <label for="login" class="label-input">Nome de usuário</label>
+                <input 
+                    id="login" 
+                    name="login" 
+                    class="input-field" 
+                    type="text" 
+                    placeholder="Digite seu nome de usuário" 
+                    required
+                    minlength="3"
+                    maxlength="20"
+                >
+                <span class="error-message" id="login-error"></span>
+            </div>
+            <div class="input-group">
+                <label for="login" class="label-input">Telefone</label>
+                <input 
+                    id="telefone" 
+                    name="telefone" 
+                    class="input-field" 
+                    type="tel" 
+                    placeholder="Digite seu telefone" 
+                    required
+                    minlength="3"
+                    maxlength="20"
+                >
+                <span class="error-message" id="login-error"></span>
+            </div>
+                
 
-<button class="buttoncadastro">Cadastrar</button> </div>
+            <div class="input-group">
+                <label for="email" class="label-input">E-mail</label>
+                <input 
+                    id="email" 
+                    name="email" 
+                    class="input-field" 
+                    type="email" 
+                    placeholder="Digite seu e-mail" 
+                    required
+                >
+                <span class="error-message" id="email-error"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="senha" class="label-input">Senha</label>
+                <div class="password-container">
+                    <input 
+                        id="senha" 
+                        name="senha" 
+                        class="input-field" 
+                        type="password" 
+                        placeholder="Digite sua senha" 
+                        required
+                        minlength="6"
+                    >
+                    <button type="button" class="toggle-password" onclick="togglePassword('senha')">
+                        👁️
+                    </button>
+                </div>
+                <div class="password-strength" id="password-strength"></div>
+                <span class="error-message" id="senha-error"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="confirmarSenha" class="label-input">Confirmar senha</label>
+                <div class="password-container">
+                    <input 
+                        id="confirmarSenha" 
+                        name="confirmarSenha" 
+                        class="input-field" 
+                        type="password" 
+                        placeholder="Confirme sua senha" 
+                        required
+                    >
+                    <button type="button" class="toggle-password" onclick="togglePassword('confirmarSenha')">
+                        👁️
+                    </button>
+                </div>
+                <span class="error-message" id="confirmarSenha-error"></span>
+            </div>
+
+            <div class="terms-container">
+                <label class="checkbox-container">
+                    <input type="checkbox" id="terms" name="terms" required>
+                    <span class="checkmark"></span>
+                    Aceito os <a href="#" class="link-terms">termos de uso</a> e <a href="#" class="link-terms">política de privacidade</a>
+                </label>
+                <span class="error-message" id="terms-error"></span>
+            </div>
+
+            <button type="submit" class="buttoncadastro" id="submitBtn">
+                <span class="btn-text">Criar Conta</span>
+                <div class="loading-spinner" style="display: none;"></div>
+            </button>
+
+            <div class="login-link">
+                <p>Já tem uma conta? <a href="../public/loginUsuario.html" class="link-login">Fazer login</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script src="../script/cadastroUsuario.js"></script>
+</body>
+</html>
 </body>
 </html>

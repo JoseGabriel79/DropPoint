@@ -1,36 +1,90 @@
 </html>
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login Usuário</title>
-  <link rel="stylesheet" href="/front_end/css/login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/loginUsuario.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <title>DropPoint - Login Usuário</title>
 </head>
-
-<body>
-
-  <div class="container">
-   
-<img onclick="window.location.href='../../index.html'" class="back-arrow" src="../img/seta-esquerda.png" alt="seta">
-
-    <h1>Seja bem-vindo</h1>
-
-    <div class="img-wrapper">
-      <img class="login-imagem" src="../img/Logo.png" alt="">
+<body class="login">
+    
+    <div class="back-button">
+        <button onclick="window.location.href='../../index.html'" class="btn-back" aria-label="Voltar ao início">
+            <img src="../img/seta-esquerda.png" alt="Voltar">
+        </button>
     </div>
 
-    <div class="box-input">
-      <input type="text" placeholder="Email">
-      <input type="password" placeholder="Senha">
-    </div>
-    <div class="box-button">
-      <button>Entrar</button>
-      <button onclick="window.location.href='../public/cadastroUsuario.html'">Cadastrar</button>
-    </div>
-  </div>
+    <div class="container-login">
+        <div class="header-login">
+            <h1 class="titulo-login">Seja bem-vindo</h1>
+            <p class="subtitulo">Faça login em sua conta</p>
+        </div>
 
+        <div class="logo-wrapper">
+            <img class="logo-imagem" src="../img/Logo.png" alt="DropPoint Logo">
+        </div>
+
+        <form class="form-login" id="loginForm" novalidate>
+            <div class="input-group">
+                <label for="email" class="label-input">E-mail</label>
+                <input 
+                    id="email" 
+                    name="email" 
+                    class="input-field" 
+                    type="email" 
+                    placeholder="Digite seu e-mail" 
+                    required
+                >
+                <span class="error-message" id="email-error"></span>
+            </div>
+
+            <div class="input-group">
+                <label for="senha" class="label-input">Senha</label>
+                <div class="password-container">
+                    <input 
+                        id="senha" 
+                        name="senha" 
+                        class="input-field" 
+                        type="password" 
+                        placeholder="Digite sua senha" 
+                        required
+                    >
+                    <button type="button" class="toggle-password" onclick="togglePassword('senha')">
+                        👁️
+                    </button>
+                </div>
+                <span class="error-message" id="senha-error"></span>
+            </div>
+
+            <div class="forgot-password">
+                <a href="#" class="link-forgot">Esqueceu sua senha?</a>
+            </div>
+
+            <div class="buttons-container">
+                <button type="submit" class="btn-entrar" id="loginBtn">
+                    <span class="btn-text">Entrar</span>
+                    <div class="loading-spinner" style="display: none;"></div>
+                </button>
+                
+                <button type="button" class="btn-cadastrar" onclick="window.location.href='../public/cadastroUsuario.html'">
+                    Criar Conta
+                </button>
+            </div>
+        </form>
+
+        <div class="divider">
+            <span>ou</span>
+        </div>
+
+        <div class="motoboy-link">
+            <p>É motoboy? <a href="../public/loginMotoboy.html" class="link-motoboy">Clique aqui</a></p>
+        </div>
+    </div>
+
+    <script src="../script/loginUsuario.js"></script>
 </body>
-
 </html>
