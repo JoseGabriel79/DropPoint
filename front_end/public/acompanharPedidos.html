@@ -1,38 +1,66 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acompanhar Pedidos</title>
-    <link rel="stylesheet" href="../css/dashboardUsuario.css">
+    <title>DropPoint - Acompanhar Pedidos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/acompanharPedidos.css">
 </head>
 
 <body>
+    <div class="back-button">
+        <button onclick="window.location.href='../../index.html'" class="btn-back" aria-label="Voltar ao início">
+            <img src="../img/seta-esquerda.png" alt="Voltar">
+        </button>
+    </div>
+
     <div class="container">
-        <div class="img-div">
-            <img src="" alt="" class="userImg">
+        <div class="header-page">
+            <h1 class="titulo-page">Acompanhar Pedidos</h1>
+            <p class="subtitulo">Gerencie seus pedidos em andamento</p>
         </div>
-        <div class="containerPedidos">
-            <ul>
-                <li>
-                    <h3>Produto#1</h3>
-                    <div class="btns-pedido">
-                        <button>Editar</button>
-                        <button>Confirmar Entrega</button>
+
+        <div class="content-wrapper">
+            <div class="user-section">
+            </div>
+
+            <div class="pedidos-section">
+                <div class="containerPedidos">
+                    <div class="pedido-item">
+                        <div class="pedido-header">
+                            <h3 class="pedido-titulo">Produto #1</h3>
+                            <span class="pedido-status status-andamento">Em andamento</span>
+                        </div>
+                        <div class="pedido-info">
+                            <p class="pedido-descricao">Descrição do produto e detalhes da entrega</p>
+                            <p class="pedido-endereco">Endereço de entrega</p>
+                        </div>
+                        <div class="btns-pedido">
+                            <button class="btn-editar" type="button">Editar</button>
+                            <button class="btn-confirmar" type="button">Confirmar Entrega</button>
+                        </div>
                     </div>
-                    <hr>
-                </li>
-                <li>
-                    <h3>Produto#1</h3>
-                    <div class="btns-pedido">
-                        <button>Editar</button>
-                        <button>Confirmar Entrega</button>
+
+                    <div class="pedido-item">
+                        <div class="pedido-header">
+                            <h3 class="pedido-titulo">Produto #2</h3>
+                            <span class="pedido-status status-pendente">Pendente</span>
+                        </div>
+                        <div class="pedido-info">
+                            <p class="pedido-descricao">Descrição do produto e detalhes da entrega</p>
+                            <p class="pedido-endereco">Endereço de entrega</p>
+                        </div>
+                        <div class="btns-pedido">
+                            <button class="btn-editar" type="button">Editar</button>
+                            <button class="btn-confirmar" type="button">Confirmar Entrega</button>
+                        </div>
                     </div>
-                    <hr>
-                </li>
-            </ul>
+                </div>
+            </div>
         </div>
     </div>
 </body>

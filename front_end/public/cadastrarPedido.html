@@ -1,45 +1,116 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="../css/dashboardUsuario.css">
+    <title>DropPoint - Cadastrar Pedido</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../css/cadastrarPedido.css">
 </head>
 
 <body>
+    <div class="back-button">
+        <button onclick="window.location.href='../../index.html'" class="btn-back" aria-label="Voltar ao início">
+            <img src="../img/seta-esquerda.png" alt="Voltar">
+        </button>
+    </div>
+
     <div class="container">
-        <div class="img-div">
-            <img src="" alt="" class="userImg">
+        <div class="header-page">
+            <h1 class="titulo-page">Cadastrar Pedido</h1>
+            <p class="subtitulo">Adicione um novo pedido para entrega</p>
         </div>
-        <div class="containerCadastro">
-            <h3>Cadastrar Pedido</h3>
-            <hr>
-            <input type="text" placeholder="codigo-pedido">
-            <select name="" id="">
-                <option value="" selected disabled>Tipo de objeto</option>
-                <option value="">Eletronico</option>
-                <option value="">Comesticos</option>
-                <option value="">Roupa</option>
-                <option value="">Utensilios Domesticos</option>
-                <option value="">Lazer</option>
-                <option value="">Ferramentas</option>
 
-            </select>
+        <div class="content-wrapper">
+            <div class="user-section">
+            </div>
 
+            <div class="form-section">
+                <form class="form-cadastro" id="cadastroPedidoForm" novalidate>
+                    <div class="input-group">
+                        <label for="codigoPedido" class="label-input">Código do Pedido</label>
+                        <input 
+                            id="codigoPedido" 
+                            name="codigoPedido" 
+                            class="input-field" 
+                            type="text" 
+                            placeholder="Digite o código do pedido" 
+                            required
+                        >
+                        <span class="error-message" id="codigo-error"></span>
+                    </div>
 
+                    <div class="input-group">
+                        <label for="tipoObjeto" class="label-input">Tipo de Objeto</label>
+                        <select id="tipoObjeto" name="tipoObjeto" class="select-field" required>
+                            <option value="" disabled selected>Selecione o tipo de objeto</option>
+                            <option value="eletronico">Eletrônico</option>
+                            <option value="cosmeticos">Cosméticos</option>
+                            <option value="roupa">Roupa</option>
+                            <option value="utensilios">Utensílios Domésticos</option>
+                            <option value="lazer">Lazer</option>
+                            <option value="ferramentas">Ferramentas</option>
+                            <option value="livros">Livros</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                        <span class="error-message" id="tipo-error"></span>
+                    </div>
 
-            <select name="" id="">
-                <option value="" selected disabled>Selecionar empresa</option>
-                <option value="">Amazon</option>
-                <option value="">AliExpress</option>
-                <option value="">Shein</option>
-                <option value="">Mercado livre</option>
-                <option value="">Shoppe</option>
-            </select>
-            <hr>
+                    <div class="input-group">
+                        <label for="empresa" class="label-input">Empresa de Origem</label>
+                        <select id="empresa" name="empresa" class="select-field" required>
+                            <option value="" disabled selected>Selecione a empresa</option>
+                            <option value="amazon">Amazon</option>
+                            <option value="aliexpress">AliExpress</option>
+                            <option value="shein">Shein</option>
+                            <option value="mercadolivre">Mercado Livre</option>
+                            <option value="shopee">Shopee</option>
+                            <option value="magazineluiza">Magazine Luiza</option>
+                            <option value="americanas">Americanas</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                        <span class="error-message" id="empresa-error"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="endereco" class="label-input">Endereço de Entrega</label>
+                        <textarea 
+                            id="endereco" 
+                            name="endereco" 
+                            class="textarea-field" 
+                            placeholder="Digite o endereço completo de entrega"
+                            rows="3"
+                            required
+                        ></textarea>
+                        <span class="error-message" id="endereco-error"></span>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="observacoes" class="label-input">Observações (Opcional)</label>
+                        <textarea 
+                            id="observacoes" 
+                            name="observacoes" 
+                            class="textarea-field" 
+                            placeholder="Informações adicionais sobre o pedido"
+                            rows="2"
+                        ></textarea>
+                    </div>
+
+                    <div class="buttons-container">
+                        <button type="submit" class="btn-cadastrar" id="cadastrarBtn">
+                            <span class="btn-text">Cadastrar Pedido</span>
+                            <div class="loading-spinner" style="display: none;"></div>
+                        </button>
+                        
+                        <button type="button" class="btn-cancelar" onclick="window.history.back()">
+                            Cancelar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </body>
