@@ -18,6 +18,7 @@ main{
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border-radius: 15px;
 }
 button{
     background-color: #A7A7A7;
@@ -32,9 +33,13 @@ button{
 
 li{
     list-style-type: none;
+    padding: 10px;
 }
 .setaRetorno{
     color: white;
+    position: fixed;
+    left: 9px;
+    top: 30px;
 }
  body {
     display: flex;
@@ -44,4 +49,28 @@ li{
     height: 100vh; /* Altura total da tela */
     margin: 0;
   }
+
+li {
+    display: inline-block; /* Faz a borda acompanhar o texto */
+    border-bottom: 0.3px solid #000; /* Espessura, estilo e cor */
+    padding-bottom: 2px; /* Espaço entre texto e linha */
+    margin-bottom: 100px;
+    margin-top: 20px;
+    padding: 10px;
+}
+ 
+ul{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 60px;
+}
+.userImg{
+height:200px ;
+width: 200px;
+border-radius: 50%;
+margin-bottom: 20px;
+}
 
