@@ -12,7 +12,17 @@
     flex-direction: column;
     gap: 30px;
     align-items: center;
+    justify-content: center;
 
+}
+.container-info{
+ background-color: rgb(255, 255, 255);
+ display: flex;
+ align-items: center;
+ flex-direction: column;
+ padding: 20px;
+ gap: 10px;
+ border-radius: 8px;
 }
 
 .btn-group {
@@ -28,14 +38,20 @@ button {
     border-radius: 8px;
     border: 0;
     cursor: pointer;
-    background-color: #A7A7A7;
-    color: aliceblue;
+    background-color: #ffffff;
+    border: 2px black solid;
+    color: rgb(0, 0, 0);
 }
-.img-div{
-    margin-top: 40px;
+button:hover {
+    width: 300px;
+    height: 35px;
+    border-radius: 8px;
+    border: 0;
+    cursor: pointer;
+    background-color: #000000;
+    color: rgb(255, 255, 255);
+}
+.userImg{
     width: 200px;
     height: 200px;
-    border-radius: 50%;
-    background-color: #A7A7A7;
-
 }
