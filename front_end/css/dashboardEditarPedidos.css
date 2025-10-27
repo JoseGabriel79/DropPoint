@@ -30,6 +30,8 @@ button{
     text-align: center;
     color: white;
     font-size: 25px;
+    cursor: pointer;
+
 }
 
 li{
@@ -89,6 +91,7 @@ header{
 footer{
     padding: 100px;
 }
+
 
 @media screen and (max-width:500px) {
    main{
