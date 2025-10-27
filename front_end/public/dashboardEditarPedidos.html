@@ -11,8 +11,11 @@
 <body>
     <header>
 
-        <h1 class="setaRetorno" alt="Voltar"><</h1>
-        <img class="userImg" src="https://thvnext.bing.com/th/id/OIP.XqMKKdpATDQPQE2e1_r9_gHaHa?o=7&cb=12rm=3&ucfimg=1&rs=1&pid=ImgDetMain&o=7&rm=3" alt="Imagem de usuario">
+       <div class="back-button">
+        <button onclick="window.location.href='../../index.html'" class="btn-back" aria-label="Voltar ao início">
+            <img src="../img/seta-esquerda.png" alt="Voltar">
+        </button>
+        
 
 <<<<<<< Updated upstream
       
@@ -24,22 +27,29 @@
     </header>
     
     <main>
+<<<<<<< Updated upstream
 
 <<<<<<< Updated upstream
+=======
+<img src="/front_end/img/Logo.png" class="iconLogo" alt="logo">
+>>>>>>> Stashed changes
 
 =======
 >>>>>>> Stashed changes
 <ul>
     <li class="endereco">
-        <h2>Endereço <button>Editar</button></h2>
+        <h2>Endereço <button class="btn-editar">Editar</button></h2>
         
     </li>
-    <li><h2>Telefone <button>Editar</button></li>
+    <li><h2>Telefone <button class="btn-editar">Editar</button></li>
    
-    <li>
-        <h3>Entrega Movel</h3><label for="">Não</label> <input type="radio" >
-        <label for="">Sim</label>
-        <input type="radio">
+    <li class="entregaMovel">
+        <h3>Entrega Movel</h3>  <input type="checkbox" class="toggle">
+  <div class="switch">
+    <div class="slider"></div>
+    
+  </div>
+       
         
     </li>
 </ul>
