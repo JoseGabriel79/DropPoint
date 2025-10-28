@@ -11,6 +11,28 @@ function togglePassword(id) {
   const senhaEl = document.getElementById('senha');
   const confirmarEl = document.getElementById('confirmarSenha');
   const strengthEl = document.getElementById('password-strength');
+  const telEl = document.getElementById('telefone');
+
+  // Máscara de telefone (formato BR)
+  function formatPhoneBR(value) {
+    const digits = (value || '').replace(/\D/g, '').slice(0, 11);
+    const ddd = digits.slice(0, 2);
+    const mid = digits.slice(2, digits.length > 10 ? 7 : 6);
+    const end = digits.slice(digits.length > 10 ? 7 : 6);
+    if (!digits.length) return '';
+    if (digits.length <= 2) return `(${ddd}`;
+    if (digits.length <= (digits.length > 10 ? 7 : 6)) return `(${ddd}) ${mid}`;
+    return `(${ddd}) ${mid}-${end}`;
+  }
+
+  telEl?.addEventListener('input', (e) => {
+    const el = e.target;
+    el.value = formatPhoneBR(el.value);
+  });
+  telEl?.addEventListener('blur', (e) => {
+    const el = e.target;
+    el.value = formatPhoneBR(el.value);
+  });
 
   // Indicador simples de força de senha
   senhaEl?.addEventListener('input', () => {
@@ -24,7 +46,8 @@ function togglePassword(id) {
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const login = document.getElementById('login')?.value?.trim();
-    const telefone = document.getElementById('telefone')?.value?.trim();
+    const telefoneMasked = telEl?.value?.trim() || '';
+    const telefone = telefoneMasked.replace(/\D/g, '') || null; // envia apenas dígitos
     const email = document.getElementById('email')?.value?.trim();
     const senha = senhaEl?.value || '';
     const confirmarSenha = confirmarEl?.value || '';

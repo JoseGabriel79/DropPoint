@@ -30,40 +30,11 @@
             </div>
 
             <div class="pedidos-section">
-                <div class="containerPedidos">
-                    <div class="pedido-item">
-                        <div class="pedido-header">
-                            <h3 class="pedido-titulo">Produto #1</h3>
-                            <span class="pedido-status status-andamento">Em andamento</span>
-                        </div>
-                        <div class="pedido-info">
-                            <p class="pedido-descricao">Descrição do produto e detalhes da entrega</p>
-                            <p class="pedido-endereco">Endereço de entrega</p>
-                        </div>
-                        <div class="btns-pedido">
-                            <button class="btn-editar" type="button">Editar</button>
-                            <button class="btn-confirmar" type="button">Confirmar Entrega</button>
-                        </div>
-                    </div>
-
-                    <div class="pedido-item">
-                        <div class="pedido-header">
-                            <h3 class="pedido-titulo">Produto #2</h3>
-                            <span class="pedido-status status-pendente">Pendente</span>
-                        </div>
-                        <div class="pedido-info">
-                            <p class="pedido-descricao">Descrição do produto e detalhes da entrega</p>
-                            <p class="pedido-endereco">Endereço de entrega</p>
-                        </div>
-                        <div class="btns-pedido">
-                            <button class="btn-editar" type="button">Editar</button>
-                            <button class="btn-confirmar" type="button">Confirmar Entrega</button>
-                        </div>
-                    </div>
-                </div>
+                <div id="containerPedidos" class="containerPedidos" aria-live="polite"></div>
             </div>
         </div>
     </div>
+    <script src="../script/acompanharPedidos.js"></script>
 </body>
 
 </html>

@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HISTORICO --de Pedidos</title>
+    <title>DropPoint - Histórico de Pedidos</title>
       <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-    <link rel="stylesheet" href="/front_end/css/historicodePedidos.css">
+    <link rel="stylesheet" href="../css/historicodePedidos.css">
 </head>
 
 <body>
@@ -16,26 +16,12 @@
         </button>
     </div>
     <main>
-        
         <div class="pedidos">
-            <h2>Historico</h2>
-            <ul>
-                <li>
-                    <h3>Pedido #1</h3>
-                    <p class="Cancelado">Cancelado</p>
-                </li>
-                <li>
-                    <h3>Pedido #2</h3>
-                    <p class="Andamento">Andamento</p>
-                </li>
-                <li>
-                    <h3>Pedido #3</h3>
-                    <p class="Finalizado">Finalizado</p>
-                </li>
-            </ul>
+            <h2>Histórico</h2>
+            <div id="containerHistorico" aria-live="polite"></div>
         </div>
-
     </main>
+    <script src="../script/historicoDePedidos.js"></script>
 
 </body>
 

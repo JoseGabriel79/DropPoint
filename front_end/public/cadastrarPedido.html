@@ -87,6 +87,17 @@
                             required
                         ></textarea>
                         <span class="error-message" id="endereco-error"></span>
+                        <div class="helper-row" style="margin-top:8px; display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
+                          <div style="display:flex; gap:8px; align-items:center;">
+                            <input id="cep" name="cep" class="input-field" type="text" placeholder="CEP" maxlength="9" style="width:140px;" aria-label="CEP">
+                            <button type="button" id="btnBuscarCep" class="btn-cadastrar" style="padding:8px 12px;">Buscar CEP</button>
+                          </div>
+                          <div style="display:flex; gap:8px; align-items:center;">
+                            <input id="numero" name="numero" class="input-field" type="text" placeholder="Número" style="width:120px;" aria-label="Número">
+                            <input id="complemento" name="complemento" class="input-field" type="text" placeholder="Complemento" style="width:160px;" aria-label="Complemento">
+                          </div>
+                          <button type="button" id="btnGeo" class="btn-cadastrar" style="padding:8px 12px;">Usar minha localização</button>
+                        </div>
                     </div>
 
                     <div class="input-group">
@@ -98,6 +109,14 @@
                             placeholder="Informações adicionais sobre o pedido"
                             rows="2"
                         ></textarea>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="entregaMovel" class="label-input">Entrega por Motoboy</label>
+                        <div>
+                          <input type="checkbox" id="entregaMovel" name="entregaMovel">
+                          <span>Quero que um motoboy entregue este pedido</span>
+                        </div>
                     </div>
 
                     <div class="buttons-container">

@@ -1,41 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<<<<<<< HEAD
-    <title>casdastroMotoboy</title>
-      <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
-=======
-    <title>CadastroMotoboy</title>
->>>>>>> 599371613afe54263ce4456dbde90ae7a5bb2209
-    <link rel="stylesheet" href="/front_end/css/cadastroMotoboy.css">
+    <title>DropPoint - Cadastro de Motoboy</title>
+    <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="../css/cadastroMotoboy.css">
 </head>
 
 <body>
     <div class="container">
-        <div class="Login">
-            <input type="text" placeholder="Nome">
-            <input type="password" placeholder="Senha">
-            <input type="password" placeholder="Confirmar senha">
-            <input type="number" placeholder="Digite seu CPf">
-        </div>
+      <form id="cadastroMotoboyForm" class="Login">
+        <input type="text" id="login" placeholder="Nome" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="tel" id="telefone" placeholder="(00) 00000-0000" maxlength="15" inputmode="numeric">
+        <input type="password" id="senha" placeholder="Senha" required>
+        <input type="password" id="confirmarSenha" placeholder="Confirmar senha" required>
+      </form>
 
-        <div class="Documento">
+      <div class="Documento">
+        <button type="button" onclick="document.getElementById('endereco').click()">Comprovante de Endereço</button>
+        <input type="file" id="endereco" style="display: none;">
 
-            <button type="button" onclick="document.getElementById('endereco').click()">Comprovante de Endereço</button>
-            <input type="file" id="endereco" style="display: none;">
+        <button type="button" onclick="document.getElementById('moto').click()">Documento da Moto</button>
+        <input type="file" id="moto" style="display: none;">
 
-            <button type="button" onclick="document.getElementById('moto').click()">Documento da Moto</button>
-            <input type="file" id="moto" style="display: none;">
+        <button type="button" onclick="document.getElementById('fotoDoc').click()">Foto do Documento</button>
+        <input type="file" id="fotoDoc" style="display: none;">
 
-            <button type="button" onclick="document.getElementById('fotoDoc').click()">Foto do Documento</button>
-            <input type="file" id="fotoDoc" style="display: none;">
-            
-            <button class="buttonlogin" onclick="window.location.href='loginMotoboy.html'">Cadastrar</button>
-        </div>
+        <button class="buttonlogin" type="button" id="btnCadastrar">Cadastrar</button>
+      </div>
     </div>
+    <script src="../script/cadastroMotoboy.js"></script>
 </body>
 
 </html>

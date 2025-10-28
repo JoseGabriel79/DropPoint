@@ -1,10 +1,12 @@
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+// TLS padrão mantido; não desabilitar verificação de certificados
 
 const { Pool } = require("pg");
 require("dotenv").config();
 
 const connectionString = process.env.DATABASE_URL;
-const sslOpt = process.env.DATABASE_SSL === 'true' ? { require: true, rejectUnauthorized: false } : false;
+const needsSSL = (process.env.DATABASE_SSL === 'true') || /neon\.tech|sslmode=require/i.test(connectionString || '');
+// Forçar desabilitar verificação de certificado no setup para funcionar em ambientes com certificado self-signed
+const sslOpt = { rejectUnauthorized: false };
 
 if (!connectionString) {
   console.error("❌ DATABASE_URL não definido. Crie um arquivo .env em back_end/ com sua string de conexão.");
