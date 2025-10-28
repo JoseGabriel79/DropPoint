@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Editar Pedidos</title>
-  <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">k
+  <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="../css/dashboardEditarPedidos.css">
@@ -28,6 +28,16 @@
     <img src="../img/Logo.png" class="iconLogo" alt="logo">
 
     <ul>
+      <!-- MODAL (fica oculto até ser aberto pelo JS) -->
+<div id="modal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2 id="modal-title">Editar</h2>
+    <input type="text" id="modal-input" placeholder="Digite aqui..." />
+    <button id="save-btn">Salvar</button>
+  </div>
+</div>
+
       <li class="endereco">
         <h2>Endereço</h2>
         <button class="btn-editar">Editar</button>
@@ -48,8 +58,10 @@
           <span class="nao">Não</span>
           <span class="sim">Sim</span>
         </label>
+        
       </li>
     </ul>
   </main>
+  <script src="../script/daksboardEditarPerfil.js"></script>
 </body>
 </html>

@@ -5,23 +5,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Entrega Movel</title>
-    <link rel="stylesheet" href="../css/dashboardUsuario.css">
+      <link rel="shortcut icon" href="../img/Logo.png" type="image/x-icon">
+ 
     <link rel="stylesheet" href="../css/dashboardEntregaMovel.css">
 </head>
 
 <body>
+    <header>
+    <div class="back-button">
+      <button onclick="window.location.href='../../index.html'" class="btn-back" aria-label="Voltar ao início">
+        <img src="../img/seta-esquerda.png" alt="Voltar">
+      </button>
+    </div>
+  </header>
     <div class="container">
-        <div class="img-div">
-            <img src="" alt="" class="userImg">
-        </div>
-        <div class="containerEntregamovel">
-            <h2>Entrega Movel</h2>
-            <label for="">Nao</label>
-            <input type="radio">
-            <label for="">Sim</label>
-            <input type="radio">
-            <hr>
-        </div>
+        <img src="../img/Logo.png" class="logo" alt="logo">
+        <h4>Entrega Movel?</h4>
+       <input type="checkbox" id="entregaMovel" class="toggle">
+        <label for="entregaMovel" class="switch">
+          <div class="slider"></div>
+          <span class="nao">Não</span>
+          <span class="sim">Sim</span>
+        </label>
     </div>
 </body>
 

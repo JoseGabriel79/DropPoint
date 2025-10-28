@@ -1,16 +1,146 @@
-.containerEntregamovel{
-    width: 200px;
-    height: 200px;
-    background-color: #a7a7a7;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap:10px;
-    border-radius: 8px;
+body{
+  background-color: #000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.container{
+  margin-top: 10%;
+  background-color: #ffffff;
+      height: auto;
+      width: 405px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-radius: 15px;
+      padding: 40px 20px;
 }
 hr{
     width: 100%;
   margin-top: 10px;
     border-color: rgba(0, 0, 0, 0.703);
+}
+ /* ====== TOGGLE “SIM / NÃO” ====== */
+    .toggle {
+      display: none;
+    }
+
+    .switch {
+      width: 90px;
+      height: 40px;
+      background-color: #ccc;
+      border-radius: 50px;
+      position: relative;
+      cursor: pointer;
+      transition: background-color 0.4s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .slider {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      width: 32px;
+      height: 32px;
+      background-color: #000;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+
+    .switch span {
+      position: absolute;
+      font-weight: bold;
+      color: white;
+      transition: opacity 0.3s ease;
+    }
+
+    .switch .sim {
+      opacity: 0;
+    }
+
+    .switch .nao {
+      opacity: 1;
+    }
+
+    /* Quando o toggle está marcado */
+    .toggle:checked + .switch {
+      background-color: #4CAF50;
+    }
+
+    .toggle:checked + .switch .slider {
+      transform: translateX(50px);
+      background-color: #4CAF50;
+    }
+
+    .toggle:checked + .switch .slider::before {
+      content: "✓";
+      color: white;
+    }
+
+    .toggle:checked + .switch .sim {
+      opacity: 1;
+    }
+
+    .toggle:checked + .switch .nao {
+      opacity: 0;
+    }
+
+    .logo{
+      height: 120px;
+       border-bottom: 1px solid #ddd;
+    }
+
+    h4{
+      font-size: 30px;
+      font-weight: 400;
+    }
+/* ====== BOTÃO VOLTAR ====== */
+.back-button {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.btn-back {
+  background: rgba(255, 255, 255, 0.9);
+  border: none;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  padding: 0; /* Garante que o padding não empurre o conteúdo */
+}
+
+/* Corrige o tamanho do ícone dentro do botão */
+.btn-back img {
+  width: 24px;  /* ajuste conforme o tamanho da seta */
+  height: 24px;
+  object-fit: contain;
+}
+
+.btn-back:hover {
+  background: white;
+ transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+@media screen and (max-width: 500px){
+  .container{
+    margin-top: 50%;
+}
 }
