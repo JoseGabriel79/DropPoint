@@ -22,7 +22,7 @@ body{
 .btn-back:hover { background: white; transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); }
 
 /* Container principal - segue lógica dos dashboards */
-.pedidos{ background-color: #ffffff; border-radius: 20px; width: 400px; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px; }
+.pedidos{ background-color: #ffffff; border-radius: 20px; width: 440px; display: flex; flex-direction: column; align-items: center; text-align: center; padding: 20px; }
 .pedidos h2{ margin: 0 0 10px; font-size: 30px; font-weight: 400; }
 
 /* Página do motoboy usa container branco como nos dashboards */
@@ -33,7 +33,7 @@ body{
 
 /* Lista de pedidos com a mesma lógica dos cards brancos */
 #containerHistorico,
-.content-wrapper{ display: flex; flex-direction: column; gap: 10px; width: 100%; }
+.content-wrapper{ display: flex; flex-direction: column; gap: 10px; width: 80%; }
 .pedido-item{ color: #000; background-color: #ffffff; width: 100%; cursor: pointer; border-radius: 8px; border: 2px solid #000; padding: 10px; text-align: left; }
 .pedido-item:hover{ color: #fff; background-color: #000; }
 .pedido-header{ display: flex; align-items: center; justify-content: space-between; }
