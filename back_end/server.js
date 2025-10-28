@@ -15,10 +15,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Conexão com o banco PostgreSQL
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { require: true, rejectUnauthorized: false },
-});
+const connectionString = process.env.DATABASE_URL;
+const sslOpt = process.env.DATABASE_SSL === 'true' ? { require: true, rejectUnauthorized: false } : false;
+if (!connectionString) {
+  console.warn("⚠️ DATABASE_URL não definido. Configure back_end/.env antes de usar rotas que acessam o banco.");
+}
+const pool = new Pool({ connectionString, ssl: sslOpt });
 
 // Servir estáticos do front-end
 app.use(express.static(path.join(__dirname, "../front_end/public")));

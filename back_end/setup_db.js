@@ -3,10 +3,16 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 const { Pool } = require("pg");
 require("dotenv").config();
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-  ssl: { require: true, rejectUnauthorized: false },
-});
+const connectionString = process.env.DATABASE_URL;
+const sslOpt = process.env.DATABASE_SSL === 'true' ? { require: true, rejectUnauthorized: false } : false;
+
+if (!connectionString) {
+  console.error("❌ DATABASE_URL não definido. Crie um arquivo .env em back_end/ com sua string de conexão.");
+  console.error("Exemplo: postgres://usuario:senha@host:5432/banco | e defina DATABASE_SSL=true se seu provedor exigir SSL (ex.: Neon)");
+  process.exit(1);
+}
+
+const pool = new Pool({ connectionString, ssl: sslOpt });
 
 const sql = `
 -- Usuários (clientes e motoboys)
