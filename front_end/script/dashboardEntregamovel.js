@@ -162,7 +162,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const resp = await fetch(url.href);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const pedidos = await resp.json();
-    renderPedidos(pedidos);
+    // Mostrar somente pedidos não entregues na lista ativa
+    const ativos = Array.isArray(pedidos) ? pedidos.filter(p => p.status !== 'entregue') : [];
+    renderPedidos(ativos);
   }
 
   async function loadDisponiveis() {

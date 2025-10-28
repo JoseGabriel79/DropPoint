@@ -56,7 +56,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const resp = await fetch(url.href);
     if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
     const pedidos = await resp.json();
-    renderPedidos(pedidos);
+    // Exibir apenas pedidos ativos (pendente/andamento); entregues vão para histórico
+    const ativos = Array.isArray(pedidos) ? pedidos.filter(p => p.status !== 'entregue') : [];
+    renderPedidos(ativos);
   }
 
   function renderPedidos(pedidos) {

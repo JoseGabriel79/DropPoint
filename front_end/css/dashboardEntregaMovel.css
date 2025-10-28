@@ -162,3 +162,19 @@ hr{
 .toast.show { opacity: 1; transform: translateY(0); }
 .toast.success { background: #2e7d32; }
 .toast.error { background: #c62828; }
+
+/* ====== BOTÃO HISTÓRICO ====== */
+.btn-history {
+  width: 300px;
+  height: 35px;
+  border-radius: 8px;
+  border: 2px solid #000;
+  cursor: pointer;
+  background-color: #ffffff;
+  color: #000;
+  transition: all 0.3s ease;
+}
+.btn-history:hover {
+  background-color: #000000;
+  color: #ffffff;
+}
