@@ -1,0 +1,53 @@
+process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
+const { Pool } = require("pg");
+require("dotenv").config();
+
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: { require: true, rejectUnauthorized: false },
+});
+
+const sql = `
+-- Usuários (clientes e motoboys)
+CREATE TABLE IF NOT EXISTS usuarios (
+  id SERIAL PRIMARY KEY,
+  login VARCHAR(50) NOT NULL UNIQUE,
+  email VARCHAR(255) NOT NULL UNIQUE,
+  telefone VARCHAR(20),
+  senha_hash TEXT NOT NULL,
+  tipo VARCHAR(20) NOT NULL DEFAULT 'usuario', -- 'usuario' | 'motoboy'
+  status VARCHAR(20) NOT NULL DEFAULT 'ativo',
+  data_cadastro TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+-- Pedidos
+CREATE TABLE IF NOT EXISTS pedidos (
+  id SERIAL PRIMARY KEY,
+  usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
+  codigo VARCHAR(100) NOT NULL,
+  tipo_objeto VARCHAR(30) NOT NULL,
+  empresa VARCHAR(50) NOT NULL,
+  endereco TEXT NOT NULL,
+  observacoes TEXT,
+  status VARCHAR(20) NOT NULL DEFAULT 'pendente', -- 'pendente'|'andamento'|'finalizado'|'cancelado'
+  data_criacao TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  data_atualizacao TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  CONSTRAINT pedidos_usuario_codigo_unique UNIQUE (usuario_id, codigo)
+);
+`;
+
+(async () => {
+  const client = await pool.connect();
+  try {
+    console.log("📦 Iniciando criação de tabelas...");
+    await client.query(sql);
+    console.log("✅ Tabelas criadas/verificadas com sucesso.");
+  } catch (err) {
+    console.error("❌ Erro ao criar tabelas:", err.message);
+    process.exitCode = 1;
+  } finally {
+    client.release();
+    await pool.end();
+  }
+})();
