@@ -1,32 +1,313 @@
-.containerCadastro {
-    width: 300px;
-    height: 300px;
-    background-color: #a7a7a7;
-    align-items: center;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+     background: linear-gradient(135deg, #070707 0%, #3c3b3c 100%);
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding: 20px;
-    border-radius: 8px;
+    color: #333;
+}
+
+
+.back-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1000;
+}
+
+.btn-back {
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn-back:hover {
+    background: white;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+}
+
+.btn-back img {
+    width: 24px;
+    height: 24px;
+}
+
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 20px 40px;
+    width: 100%;
+}
+
+
+.header-page {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.logo-wrapper {
+    margin-bottom: 20px;
+}
+
+.logo-imagem {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+}
+
+.titulo-page {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: white;
+    margin-bottom: 10px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.subtitulo {
+    font-size: 1.1rem;
+    color: rgba(255, 255, 255, 0.9);
+    font-weight: 400;
+}
+
+
+.content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+.user-section {
+    display: flex;
+    justify-content: center;
+}
+
+.user-avatar {
+    background: white;
+    border-radius: 50%;
+    padding: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+.userImg {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+
+.form-section {
+    display: flex;
+    justify-content: center;
+}
+
+.form-cadastro {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    width: 100%;
+    max-width: 500px;
+}
+
+
+.input-group {
+    margin-bottom: 25px;
+}
+
+.label-input {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #2c3e50;
+    font-size: 0.95rem;
+}
+
+
+.input-field,
+.select-field,
+.textarea-field {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid #e1e8ed;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-family: 'Inter', sans-serif;
+    transition: all 0.3s ease;
+    background: white;
+}
+
+.input-field:focus,
+.select-field:focus,
+.textarea-field:focus {
+    outline: none;
+    border-color: #667eea;
+    box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    transform: translateY(-1px);
+}
+
+.input-field::placeholder,
+.textarea-field::placeholder {
+    color: #adb5bd;
+}
+
+
+.select-field {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m6 8 4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 12px center;
+    background-repeat: no-repeat;
+    background-size: 16px;
+    appearance: none;
+}
+
+
+.textarea-field {
+    resize: vertical;
+    min-height: 100px;
+}
+
+
+.error-message {
+    display: block;
+    color: #dc3545;
+    font-size: 0.875rem;
+    margin-top: 5px;
+    min-height: 20px;
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
     gap: 15px;
+    margin-top: 30px;
 }
 
-hr {
-    width: 80%;
-    border-color: rgba(0, 0, 0, 0.558);
+
+.btn-cadastrar,
+.btn-cancelar {
+    width: 100%;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    font-family: 'Inter', sans-serif;
 }
 
-select {
-    width: 200px;
-    height: 40px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 0;
+.btn-cadastrar {
+     background: linear-gradient(135deg, #070707 0%, #3c3b3c 100%);
+    color: white;
+    box-shadow: 0 4px 15px rgba(189, 195, 219, 0.4);
 }
 
-input {
-    width: 200px;
-    height: 40px;
-    padding: 10px;
-    border-radius: 8px;
-    border: 0;
+.btn-cadastrar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.btn-cancelar {
+    background: #f8f9fa;
+    color: #495057;
+    border: 2px solid #dee2e6;
+}
+
+.btn-cancelar:hover {
+    background: #e9ecef;
+    transform: translateY(-1px);
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid transparent;
+    border-top: 2px solid white;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Estados dos botões */
+.btn-cadastrar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 60px 15px 20px;
+    }
+    
+    .titulo-page {
+        font-size: 2rem;
+    }
+    
+    .subtitulo {
+        font-size: 1rem;
+    }
+    
+    .form-cadastro {
+        padding: 30px 25px;
+    }
+    
+    .buttons-container {
+        gap: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo-page {
+        font-size: 1.8rem;
+    }
+    
+    .form-cadastro {
+        padding: 25px 20px;
+    }
+    
+    .input-field,
+    .select-field,
+    .textarea-field {
+        padding: 10px 14px;
+    }
+}
+
+@media (max-width: 320px) {
+    .titulo-page {
+        font-size: 1.5rem;
+    }
+    
+    .form-cadastro {
+        padding: 20px 15px;
+    }
 }

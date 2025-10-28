@@ -56,7 +56,7 @@ body {
 
 .Documento button:hover {
   background-color: black;
-  color: rgb(169, 169, 169);
+  color: #fff;
   border: 1px solid black;
 }
 
