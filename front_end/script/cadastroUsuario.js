@@ -57,6 +57,11 @@ function togglePassword(id) {
       alert('Preencha login, e-mail e senha.');
       return;
     }
+    // Validação mínima de telefone (10 ou 11 dígitos)
+    if (!telefone || (telefone.length !== 10 && telefone.length !== 11)) {
+      alert('Informe um telefone válido com 10 ou 11 dígitos.');
+      return;
+    }
     if (senha !== confirmarSenha) {
       alert('As senhas não coincidem.');
       return;
