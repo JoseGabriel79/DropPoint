@@ -8,8 +8,8 @@ function togglePassword(id) {
   const form = document.getElementById('loginForm');
   if (!form) return;
 
-  form.addEventListener('submit', async (e) => {
-    e.preventDefault();
+  // Função para realizar o login
+  const realizarLogin = async () => {
     const email = document.getElementById('email')?.value?.trim();
     const senha = document.getElementById('senha')?.value || '';
 
@@ -40,6 +40,27 @@ function togglePassword(id) {
     } finally {
       if (spinner) spinner.style.display = 'none';
       btn?.removeAttribute('disabled');
+    }
+  };
+
+  // Event listener para o formulário
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    await realizarLogin();
+  });
+
+  // Event listener para a tecla Enter nos campos de input
+  const emailInput = document.getElementById('email');
+  const senhaInput = document.getElementById('senha');
+  
+  [emailInput, senhaInput].forEach(input => {
+    if (input) {
+      input.addEventListener('keypress', async (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          await realizarLogin();
+        }
+      });
     }
   });
 })();

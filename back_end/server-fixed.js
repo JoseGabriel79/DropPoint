@@ -5,92 +5,113 @@ const cors = require("cors");
 const { Pool } = require("pg");
 const bcrypt = require("bcryptjs");
 const path = require("path");
+const multer = require("multer");
+const { createClient } = require("@supabase/supabase-js");
+const fetch = require('node-fetch');
 require("dotenv").config();
 
 const app = express();
+
+// Configuração do Supabase
+const supabaseUrl = process.env.SUPABASE_URL;
+const supabaseKey = process.env.SUPABASE_ANON_KEY;
+const bucketName = process.env.SUPABASE_BUCKET_NAME;
+
+if (!supabaseUrl || !supabaseKey || !bucketName) {
+  console.warn("⚠️ Configurações do Supabase não encontradas no .env");
+}
+
+const supabase = createClient(supabaseUrl, supabaseKey);
+
+// Configuração do multer para upload de arquivos
+const storage = multer.memoryStorage();
+const upload = multer({ 
+  storage: storage,
+  limits: {
+    fileSize: 10 * 1024 * 1024 // 10MB
+  }
+});
 
 // Middlewares
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Conexão com o banco PostgreSQL
-const connectionString = process.env.DATABASE_URL;
-// SSL condicional; quando necessário, desativa verificação de certificado
-const needsSSL = (process.env.DATABASE_SSL === 'true') || /sslmode=require/i.test((process.env.DATABASE_URL || ''));
-const sslOpt = needsSSL ? { rejectUnauthorized: false } : false;
-if (!connectionString) {
-  console.warn("⚠️ DATABASE_URL não definido. Configure back_end/.env antes de usar rotas que acessam o banco.");
-}
-const pool = new Pool({ connectionString, ssl: sslOpt });
+// Configuração do banco de dados
+const pool = new Pool({
+  connectionString: process.env.DATABASE_URL,
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+});
 
-// Verificar/criar tabelas automaticamente no startup
+// Função para inicializar banco de dados
 async function initDb() {
-  const ddl = `
-  CREATE TABLE IF NOT EXISTS usuarios (
-    id SERIAL PRIMARY KEY,
-    login VARCHAR(50) NOT NULL UNIQUE,
-    email VARCHAR(255) NOT NULL UNIQUE,
-    telefone VARCHAR(20),
-    senha_hash TEXT NOT NULL,
-    tipo VARCHAR(20) NOT NULL DEFAULT 'usuario',
-    status VARCHAR(20) NOT NULL DEFAULT 'ativo',
-    disponivel BOOLEAN NOT NULL DEFAULT FALSE,
-    data_cadastro TIMESTAMPTZ NOT NULL DEFAULT NOW()
-  );
-
-  CREATE TABLE IF NOT EXISTS pedidos (
-    id SERIAL PRIMARY KEY,
-    usuario_id INTEGER NOT NULL REFERENCES usuarios(id) ON DELETE CASCADE,
-    codigo VARCHAR(100) NOT NULL,
-    tipo_objeto VARCHAR(30) NOT NULL,
-    empresa VARCHAR(50) NOT NULL,
-    endereco TEXT NOT NULL,
-    observacoes TEXT,
-    status VARCHAR(20) NOT NULL DEFAULT 'pendente',
-    data_criacao TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    data_atualizacao TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    CONSTRAINT pedidos_usuario_codigo_unique UNIQUE (usuario_id, codigo)
-  );
-  ALTER TABLE pedidos ADD COLUMN IF NOT EXISTS motoboy_id INTEGER REFERENCES usuarios(id) ON DELETE SET NULL;
-  ALTER TABLE pedidos ADD COLUMN IF NOT EXISTS entrega_movel BOOLEAN NOT NULL DEFAULT false;
-  `;
   try {
-    await pool.query(ddl);
-    console.log('✅ Tabelas verificadas/criadas');
+    // Verificar/criar tabela usuarios
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS usuarios (
+        id SERIAL PRIMARY KEY,
+        login VARCHAR(100) NOT NULL,
+        email VARCHAR(100) UNIQUE NOT NULL,
+        telefone VARCHAR(20),
+        senha_hash VARCHAR(255) NOT NULL,
+        tipo VARCHAR(20) NOT NULL CHECK (tipo IN ('usuario', 'motoboy', 'admin', 'gestor')),
+        status VARCHAR(20) DEFAULT 'ativo' CHECK (status IN ('ativo', 'inativo', 'pendente')),
+        disponivel BOOLEAN DEFAULT FALSE,
+        aprovado BOOLEAN DEFAULT FALSE,
+        comprovante_endereco TEXT,
+        documento_moto TEXT,
+        foto_documento TEXT,
+        data_cadastro TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    // Verificar/criar tabela pedidos
+    await pool.query(`
+      CREATE TABLE IF NOT EXISTS pedidos (
+        id SERIAL PRIMARY KEY,
+        usuario_id INTEGER REFERENCES usuarios(id),
+        motoboy_id INTEGER REFERENCES usuarios(id),
+        codigo VARCHAR(100) NOT NULL,
+        tipo_objeto VARCHAR(100) NOT NULL,
+        empresa VARCHAR(100) NOT NULL,
+        endereco TEXT NOT NULL,
+        observacoes TEXT,
+        status VARCHAR(20) DEFAULT 'pendente' CHECK (status IN ('pendente', 'andamento', 'entregue', 'cancelado')),
+        entrega_movel BOOLEAN DEFAULT FALSE,
+        data_criacao TIMESTAMP DEFAULT NOW(),
+        data_atualizacao TIMESTAMP DEFAULT NOW()
+      )
+    `);
+
+    console.log("✅ Tabelas verificadas/criadas");
   } catch (err) {
     console.error('🟥 Erro ao criar/verificar tabelas:', err);
+    // Não encerrar o processo em caso de erro
   }
 }
 
-initDb();
-
-// Servir estáticos do front-end
-app.use(express.static(path.join(__dirname, "../front_end/public")));
-app.use("/css", express.static(path.join(__dirname, "../front_end/css")));
-app.use("/img", express.static(path.join(__dirname, "../front_end/img")));
-app.use("/script", express.static(path.join(__dirname, "../front_end/script")));
-
-// Util: atualizar timestamp
-async function touchPedido(id) {
-  await pool.query("UPDATE pedidos SET data_atualizacao = NOW() WHERE id = $1", [id]);
-}
-
-// Raiz
-app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname, "../index.html"));
+// Inicializar banco de dados de forma assíncrona
+initDb().catch(err => {
+  console.error('🟥 Erro na inicialização do banco:', err);
 });
 
-// Cadastro de usuário (cliente por padrão)
+// ===== ROTAS DA API (DEVEM VIR ANTES DOS ARQUIVOS ESTÁTICOS) =====
+
+// Cadastro de usuário comum
 app.post("/usuarios", async (req, res) => {
   try {
-    const { login, email, senha, telefone, tipo = "usuario", status = "ativo" } = req.body;
-
+    const { login, email, telefone, senha, tipo } = req.body;
     if (!login || !email || !senha) {
       return res.status(400).json({ erro: "Campos obrigatórios: login, email, senha" });
     }
 
+    const tipoValido = tipo || 'usuario';
+    if (!['usuario', 'admin', 'gestor'].includes(tipoValido)) {
+      return res.status(400).json({ erro: "Tipo inválido. Use: usuario, admin ou gestor" });
+    }
+
     const senha_hash = await bcrypt.hash(senha, 10);
+    const status = 'ativo';
 
     const query = `
       INSERT INTO usuarios (login, email, telefone, senha_hash, tipo, status)
@@ -98,12 +119,92 @@ app.post("/usuarios", async (req, res) => {
       RETURNING id, login, email, telefone, tipo, status, data_cadastro;
     `;
 
-    const values = [login, email, telefone || null, senha_hash, tipo, status];
+    const values = [login, email, telefone || null, senha_hash, tipoValido, status];
     const { rows } = await pool.query(query, values);
 
     res.status(201).json({ mensagem: "Usuário cadastrado com sucesso!", usuario: rows[0] });
   } catch (erro) {
     console.error("🟥 Erro ao cadastrar usuário:", erro);
+    
+    if (erro.code === '23505') {
+      return res.status(409).json({ erro: "Email já cadastrado" });
+    }
+    
+    res.status(500).json({ erro: erro.message || "Erro no servidor" });
+  }
+});
+
+// Cadastro de motoboy com upload de imagens
+app.post("/usuarios/motoboy", upload.fields([
+  { name: 'endereco', maxCount: 1 },
+  { name: 'moto', maxCount: 1 },
+  { name: 'fotoDoc', maxCount: 1 }
+]), async (req, res) => {
+  try {
+    const { login, email, senha, telefone } = req.body;
+
+    if (!login || !email || !senha) {
+      return res.status(400).json({ erro: "Campos obrigatórios: login, email, senha" });
+    }
+
+    if (!req.files || !req.files.endereco || !req.files.moto || !req.files.fotoDoc) {
+      return res.status(400).json({ erro: "Todas as imagens são obrigatórias: comprovante de endereço, documento da moto e foto do documento" });
+    }
+
+    const senha_hash = await bcrypt.hash(senha, 10);
+
+    // Upload das imagens para o Supabase com nomenclatura melhorada
+    const uploadPromises = [];
+    const imageUrls = {};
+
+    // Mapeamento de nomes mais descritivos
+    const fieldMapping = {
+      'endereco': 'comprovante_endereco',
+      'moto': 'documento_moto', 
+      'fotoDoc': 'foto_documento'
+    };
+
+    for (const [fieldName, files] of Object.entries(req.files)) {
+      const file = files[0];
+      const documentType = fieldMapping[fieldName] || fieldName;
+      const fileName = `${login}_${documentType}_${Date.now()}.${file.mimetype.split('/')[1]}`;
+      
+      uploadPromises.push(
+        supabase.storage
+          .from(bucketName)
+          .upload(fileName, file.buffer, {
+            contentType: file.mimetype,
+            upsert: false
+          })
+          .then(({ data, error }) => {
+            if (error) throw error;
+            imageUrls[fieldName] = data.path;
+          })
+      );
+    }
+
+    await Promise.all(uploadPromises);
+
+    // Inserir usuário no banco com URLs das imagens
+    const { rows } = await pool.query(
+      `INSERT INTO usuarios (login, email, telefone, senha_hash, tipo, status, aprovado, comprovante_endereco, documento_moto, foto_documento) 
+       VALUES ($1, $2, $3, $4, 'motoboy', 'pendente', false, $5, $6, $7) 
+       RETURNING id, login, email, telefone, tipo, status, aprovado`,
+      [login, email, telefone, senha_hash, imageUrls.endereco, imageUrls.moto, imageUrls.fotoDoc]
+    );
+
+    res.status(201).json({
+      mensagem: "Motoboy cadastrado com sucesso! Aguarde aprovação.",
+      usuario: rows[0]
+    });
+
+  } catch (erro) {
+    console.error("🟥 Erro ao cadastrar motoboy:", erro);
+    
+    if (erro.code === '23505') {
+      return res.status(409).json({ erro: "Email já cadastrado" });
+    }
+    
     res.status(500).json({ erro: erro.message || "Erro no servidor" });
   }
 });
@@ -139,11 +240,38 @@ app.post("/loginMotoboy", async (req, res) => {
     if (!email || !senha) return res.status(400).json({ erro: "Campos obrigatórios: email, senha" });
 
     const { rows } = await pool.query(
-      "SELECT id, login, email, telefone, senha_hash, tipo, status, disponivel FROM usuarios WHERE email = $1 AND tipo = 'motoboy'",
+      "SELECT id, login, email, telefone, senha_hash, tipo, status, disponivel, aprovado, comprovante_endereco, documento_moto, foto_documento FROM usuarios WHERE email = $1 AND tipo = 'motoboy'",
       [email]
     );
     const user = rows[0];
     if (!user) return res.status(401).json({ erro: "Motoboy não encontrado" });
+
+    // Verificar se o motoboy tem todas as imagens cadastradas
+    if (!user.comprovante_endereco || !user.documento_moto || !user.foto_documento) {
+      return res.status(403).json({ 
+        erro: "Cadastro incompleto. É necessário enviar todas as imagens obrigatórias." 
+      });
+    }
+
+    // Verificar se o motoboy foi aprovado pelo admin
+    if (!user.aprovado) {
+      return res.status(403).json({ 
+        erro: "Cadastro pendente de aprovação. Aguarde a análise do administrador." 
+      });
+    }
+
+    // Verificar se o status permite login
+    if (user.status === 'pendente') {
+      return res.status(403).json({ 
+        erro: "Cadastro em análise. Aguarde aprovação para fazer login." 
+      });
+    }
+
+    if (user.status === 'inativo') {
+      return res.status(403).json({ 
+        erro: "Conta inativa. Entre em contato com o suporte." 
+      });
+    }
 
     const ok = await bcrypt.compare(senha, user.senha_hash);
     if (!ok) return res.status(401).json({ erro: "Credenciais inválidas" });
@@ -152,6 +280,37 @@ app.post("/loginMotoboy", async (req, res) => {
     res.json({ mensagem: "Login bem-sucedido", usuario: user });
   } catch (erro) {
     console.error("🟥 Erro em loginMotoboy:", erro);
+    res.status(500).json({ erro: erro.message || "Erro no servidor" });
+  }
+});
+
+// Login de administrador
+app.post("/loginAdmin", async (req, res) => {
+  console.log("🔵 Requisição recebida em /loginAdmin:", req.body);
+  try {
+    const { email, senha } = req.body;
+    if (!email || !senha) return res.status(400).json({ erro: "Campos obrigatórios: email, senha" });
+
+    const { rows } = await pool.query(
+      "SELECT id, login, email, telefone, senha_hash, tipo, status FROM usuarios WHERE email = $1 AND tipo = 'admin'",
+      [email]
+    );
+    const user = rows[0];
+    if (!user) return res.status(401).json({ erro: "Administrador não encontrado" });
+
+    if (user.status === 'inativo') {
+      return res.status(403).json({ 
+        erro: "Conta inativa. Entre em contato com o suporte." 
+      });
+    }
+
+    const ok = await bcrypt.compare(senha, user.senha_hash);
+    if (!ok) return res.status(401).json({ erro: "Credenciais inválidas" });
+
+    delete user.senha_hash;
+    res.json({ mensagem: "Login bem-sucedido", usuario: user });
+  } catch (erro) {
+    console.error("🟥 Erro em loginAdmin:", erro);
     res.status(500).json({ erro: erro.message || "Erro no servidor" });
   }
 });
@@ -205,6 +364,7 @@ app.put("/motoboys/:id/disponibilidade", async (req, res) => {
     res.status(500).json({ erro: erro.message || "Erro no servidor" });
   }
 });
+
 // Criar pedido
 app.post("/pedidos", async (req, res) => {
   try {
@@ -392,7 +552,178 @@ app.put("/pedidos/:id/status", async (req, res) => {
   }
 });
 
+// ===== ROTAS DE ADMIN =====
+
+// Listar motoboys pendentes de aprovação
+app.get("/admin/motoboys/pendentes", async (req, res) => {
+  try {
+    const { rows } = await pool.query(`
+      SELECT id, login, email, telefone, tipo, status, data_cadastro, 
+             comprovante_endereco, documento_moto, foto_documento, aprovado
+      FROM usuarios 
+      WHERE tipo = 'motoboy' AND aprovado = FALSE 
+      ORDER BY data_cadastro DESC
+    `);
+    
+    res.json({ motoboys: rows });
+  } catch (erro) {
+    console.error("🟥 Erro ao listar motoboys pendentes:", erro);
+    res.status(500).json({ erro: erro.message || "Erro no servidor" });
+  }
+});
+
+// Listar todos os motoboys (aprovados e pendentes)
+app.get("/admin/motoboys", async (req, res) => {
+  try {
+    const { rows } = await pool.query(`
+      SELECT id, login, email, telefone, tipo, status, data_cadastro, 
+             comprovante_endereco, documento_moto, foto_documento, aprovado
+      FROM usuarios 
+      WHERE tipo = 'motoboy' 
+      ORDER BY data_cadastro DESC
+    `);
+    
+    res.json({ motoboys: rows });
+  } catch (erro) {
+    console.error("🟥 Erro ao listar motoboys:", erro);
+    res.status(500).json({ erro: erro.message || "Erro no servidor" });
+  }
+});
+
+// Aprovar ou rejeitar motoboy
+app.put("/admin/motoboys/:id/aprovacao", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { aprovado, motivo } = req.body;
+    
+    if (typeof aprovado !== 'boolean') {
+      return res.status(400).json({ erro: "Campo obrigatório: aprovado (true/false)" });
+    }
+
+    // Se rejeitado, pode inativar o usuário
+    const status = aprovado ? 'ativo' : 'inativo';
+    
+    const { rowCount, rows } = await pool.query(
+      "UPDATE usuarios SET aprovado = $1, status = $2 WHERE id = $3 AND tipo = 'motoboy' RETURNING id, login, email, aprovado, status",
+      [aprovado, status, id]
+    );
+    
+    if (!rowCount) {
+      return res.status(404).json({ erro: "Motoboy não encontrado" });
+    }
+    
+    const acao = aprovado ? 'aprovado' : 'rejeitado';
+    res.json({ 
+      mensagem: `Motoboy ${acao} com sucesso`, 
+      motoboy: rows[0],
+      motivo: motivo || null
+    });
+  } catch (erro) {
+    console.error("🟥 Erro ao aprovar/rejeitar motoboy:", erro);
+    res.status(500).json({ erro: erro.message || "Erro no servidor" });
+  }
+});
+
+// ===== ROTAS PERSONALIZADAS (DEVEM VIR ANTES DOS ARQUIVOS ESTÁTICOS) =====
+
+// Rota de teste
+app.get("/test", (req, res) => {
+  res.json({ message: "Servidor funcionando!", timestamp: new Date().toISOString() });
+});
+
+// Rota de teste para verificar se as rotas estão funcionando
+app.get("/test-images", (req, res) => {
+  res.json({ message: "Rota de teste funcionando!" });
+});
+
+// Rota para servir imagens do Supabase Storage
+app.get("/images/:filename", async (req, res) => {
+  const { filename } = req.params;
+  console.log("🖼️ Solicitação de imagem:", filename);
+  
+  try {
+    // Baixar a imagem do Supabase Storage
+    const { data, error } = await supabase.storage
+      .from(bucketName)
+      .download(filename);
+    
+    if (error) {
+      console.log("❌ Erro ao baixar imagem:", error.message);
+      return res.status(404).json({ erro: "Imagem não encontrada" });
+    }
+    
+    if (!data) {
+      console.log("❌ Dados da imagem não encontrados");
+      return res.status(404).json({ erro: "Imagem não encontrada" });
+    }
+    
+    // Determinar o tipo de conteúdo baseado na extensão
+    const ext = filename.split('.').pop().toLowerCase();
+    let contentType = 'image/jpeg'; // padrão
+    
+    switch (ext) {
+      case 'png':
+        contentType = 'image/png';
+        break;
+      case 'jpg':
+      case 'jpeg':
+        contentType = 'image/jpeg';
+        break;
+      case 'gif':
+        contentType = 'image/gif';
+        break;
+      case 'webp':
+        contentType = 'image/webp';
+        break;
+    }
+    
+    console.log("✅ Imagem encontrada, servindo diretamente");
+    
+    // Configurar headers e servir a imagem
+    res.setHeader('Content-Type', contentType);
+    res.setHeader('Cache-Control', 'public, max-age=31536000'); // Cache por 1 ano
+    
+    // Converter ArrayBuffer para Buffer e enviar
+    const buffer = Buffer.from(await data.arrayBuffer());
+    res.send(buffer);
+    
+  } catch (error) {
+    console.error("🟥 Erro ao servir imagem:", error);
+    res.status(500).json({ erro: "Erro interno do servidor" });
+  }
+});
+
+// ===== ARQUIVOS ESTÁTICOS (DEVEM VIR APÓS AS ROTAS PERSONALIZADAS) =====
+
+// Servir estáticos do front-end
+app.use(express.static(path.join(__dirname, "../front_end/public")));
+app.use("/css", express.static(path.join(__dirname, "../front_end/css")));
+app.use("/img", express.static(path.join(__dirname, "../front_end/img")));
+app.use("/script", express.static(path.join(__dirname, "../front_end/script")));
+
+// Raiz
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "../index.html"));
+});
+
 // Inicializa servidor
-app.listen(8080, () => {
-  console.log("🚀 Servidor rodando na porta 8080");
+const server = app.listen(8080, () => {
+  console.log("🚀 Servidor funcionando na porta 8080");
+});
+
+// Evitar que o processo termine inesperadamente
+process.on('SIGINT', () => {
+  console.log('🔧 Recebido SIGINT, fechando servidor...');
+  server.close(() => {
+    console.log('🔧 Servidor fechado');
+    process.exit(0);
+  });
+});
+
+process.on('uncaughtException', (err) => {
+  console.error('🟥 Exceção não capturada:', err);
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('🟥 Promise rejeitada não tratada:', reason);
 });

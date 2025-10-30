@@ -325,6 +325,27 @@ body {
     text-decoration: underline;
 }
 
+/* Link para admin */
+.admin-link {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.admin-link p {
+    color: #666;
+    font-size: 14px;
+}
+
+.link-admin {
+    color: #000;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.link-admin:hover {
+    text-decoration: underline;
+}
+
 /* Responsividade */
 @media (max-width: 768px) {
     .login {

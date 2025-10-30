@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrador - DropPoint</title>
+    <link rel="stylesheet" href="../css/loginAdmin.css">
+</head>
+<body>
+    <div class="login">
+        <!-- Botão de voltar -->
+        <button class="btn-voltar" onclick="window.location.href='../../index.html'">
+            <img src="../img/seta-esquerda.png" alt="Voltar">
+        </button>
+
+        <!-- Container principal -->
+        <div class="login-container">
+            <!-- Header -->
+            <div class="login-header">
+                <h1>Login Administrador</h1>
+                <p>Acesse o painel administrativo</p>
+            </div>
+
+            <!-- Logo -->
+            <div class="logo-wrapper">
+                <img src="../img/Logo.png" alt="DropPoint Logo" class="logo">
+            </div>
+
+            <!-- Formulário -->
+            <form id="loginForm" class="login-form">
+                <div class="input-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" class="input-field" placeholder="Digite seu email" required>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="input-group">
+                    <label for="senha">Senha</label>
+                    <div class="password-container">
+                        <input type="password" id="senha" name="senha" class="input-field" placeholder="Digite sua senha" required>
+                        <button type="button" class="toggle-password" onclick="togglePassword('senha')">👁️</button>
+                    </div>
+                    <span class="error-message" id="senhaError"></span>
+                </div>
+
+                <div class="button-container">
+                    <button type="submit" id="btnEntrar" class="btn-entrar">
+                        <span class="spinner" id="spinner"></span>
+                        <span id="btnText">Entrar</span>
+                    </button>
+                </div>
+            </form>
+
+            <!-- Mensagem de feedback -->
+            <div id="mensagem" class="error-message" style="text-align: center; margin-top: 15px;"></div>
+            
+            <!-- Link para página inicial -->
+            <div class="link-home">
+                <a href="../../index.html">Voltar à página inicial</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="../script/loginAdmin.js"></script>
+</body>
+</html>

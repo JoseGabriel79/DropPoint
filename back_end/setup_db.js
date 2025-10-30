@@ -26,6 +26,10 @@ CREATE TABLE IF NOT EXISTS usuarios (
   senha_hash TEXT NOT NULL,
   tipo VARCHAR(20) NOT NULL DEFAULT 'usuario', -- 'usuario' | 'motoboy'
   status VARCHAR(20) NOT NULL DEFAULT 'ativo',
+  disponivel BOOLEAN NOT NULL DEFAULT FALSE,
+  comprovante_endereco TEXT,
+  documento_moto TEXT,
+  foto_documento TEXT,
   data_cadastro TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 

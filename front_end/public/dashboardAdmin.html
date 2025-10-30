@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Admin - DropPoint</title>
+    <link rel="stylesheet" href="../css/dashboardAdmin.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header com informações do admin -->
+        <div class="container-info">
+            <img src="../img/Logo.png" alt="DropPoint Logo" class="logo-admin">
+            <h1>Dashboard Administrador</h1>
+            <div class="admin-info">
+                <p>Bem-vindo, <span id="adminNome">Admin</span></p>
+                <button id="btnLogout" class="btn-logout">Sair</button>
+            </div>
+        </div>
+
+        <!-- Navegação por abas -->
+        <div class="nav-tabs">
+            <button class="tab-btn active" data-tab="pendentes">Pendentes de Aprovação</button>
+            <button class="tab-btn" data-tab="todos">Todos os Motoboys</button>
+        </div>
+
+        <!-- Conteúdo das abas -->
+        <div class="main-content">
+            <!-- Tab Pendentes -->
+            <div id="tab-pendentes" class="tab-content active">
+                <div class="section-header">
+                    <h2>Motoboys Pendentes de Aprovação</h2>
+                    <button id="btnAtualizarPendentes" class="btn-refresh">🔄 Atualizar</button>
+                </div>
+                <div id="listaPendentes" class="motoboys-list">
+                    <div class="loading">Carregando...</div>
+                </div>
+            </div>
+
+            <!-- Tab Todos -->
+            <div id="tab-todos" class="tab-content">
+                <div class="section-header">
+                    <h2>Todos os Motoboys</h2>
+                    <button id="btnAtualizarTodos" class="btn-refresh">🔄 Atualizar</button>
+                </div>
+                <div id="listaTodos" class="motoboys-list">
+                    <div class="loading">Carregando...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Confirmação -->
+    <div id="modalConfirmacao" class="modal">
+        <div class="modal-content">
+            <h3 id="modalTitulo">Confirmar Ação</h3>
+            <p id="modalMensagem">Tem certeza que deseja realizar esta ação?</p>
+            <div class="modal-actions">
+                <button id="btnConfirmar" class="btn-confirmar">Confirmar</button>
+                <button id="btnCancelar" class="btn-cancelar">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de Visualização de Documentos -->
+    <div id="modalDocumentos" class="modal-documentos">
+        <div class="modal-documentos-content">
+            <div class="modal-header">
+                <h3 id="modalDocumentosTitulo">Documentos do Motoboy</h3>
+                <button id="btnFecharDocumentos" class="btn-fechar">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="documento-item">
+                    <h4>Comprovante de Endereço</h4>
+                    <div class="imagem-container">
+                        <img id="imagemEndereco" src="" alt="Comprovante de Endereço" class="documento-imagem">
+                    </div>
+                </div>
+                <div class="documento-item">
+                    <h4>Documento da Moto</h4>
+                    <div class="imagem-container">
+                        <img id="imagemMoto" src="" alt="Documento da Moto" class="documento-imagem">
+                    </div>
+                </div>
+                <div class="documento-item">
+                    <h4>Foto do Documento</h4>
+                    <div class="imagem-container">
+                        <img id="imagemFotoDoc" src="" alt="Foto do Documento" class="documento-imagem">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Mensagem de feedback -->
+    <div id="mensagem" class="mensagem"></div>
+
+    <script src="../script/dashboardAdmin.js"></script>
+</body>
+</html>
